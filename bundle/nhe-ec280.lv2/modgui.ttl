@@ -1,0 +1,25 @@
+@prefix lv2:    <http://lv2plug.in/ns/lv2core#> .
+@prefix modgui: <http://moddevices.com/ns/modgui#> .
+
+<https://github.com/Kiwooky/NHE-EC280>
+    modgui:gui [
+        modgui:resourcesDirectory <modgui> ;
+        modgui:iconTemplate <modgui/icon-ec280.html> ;
+        modgui:stylesheet <modgui/stylesheet-ec280.css> ;
+        modgui:javascript <modgui/script-ec280.js> ;
+        modgui:screenshot <modgui/screenshot-ec280.png> ;
+        modgui:thumbnail <modgui/thumbnail-ec280.png> ;
+        modgui:brand "New Horizon" ;
+        modgui:label "Electronic Echo 280" ;
+        modgui:port
+        [ lv2:index 0 ; lv2:symbol "volume" ; lv2:name "Volume" ; ] ,
+        [ lv2:index 1 ; lv2:symbol "speed" ; lv2:name "Speed" ; ] ,
+        [ lv2:index 2 ; lv2:symbol "duration" ; lv2:name "Duration" ; ] ,
+        [ lv2:index 3 ; lv2:symbol "return_level" ; lv2:name "Return" ; ] ,
+        [ lv2:index 4 ; lv2:symbol "chorus" ; lv2:name "Chorus" ; ] ,
+        [ lv2:index 5 ; lv2:symbol "mode" ; lv2:name "Echo / Reverb" ; ] ,
+        [ lv2:index 6 ; lv2:symbol "echo_taps" ; lv2:name "Echo buttons" ; ] ,
+        [ lv2:index 7 ; lv2:symbol "hall_taps" ; lv2:name "Reverb buttons" ; ] ,
+        [ lv2:index 8 ; lv2:symbol "range" ; lv2:name "Range" ; ] ,
+        [ lv2:index 9 ; lv2:symbol "tails" ; lv2:name "Tails" ; ] ;
+    ] .

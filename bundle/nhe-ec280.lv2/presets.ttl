@@ -1,0 +1,163 @@
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
+@prefix pset: <http://lv2plug.in/ns/ext/presets#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://github.com/Kiwooky/NHE-EC280#preset-a-cold-space>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "A cold space" ;
+    lv2:port
+        [ lv2:symbol "volume" ; pset:value 5.0 ] ,
+        [ lv2:symbol "speed" ; pset:value 0.0 ] ,
+        [ lv2:symbol "duration" ; pset:value 0.898438 ] ,
+        [ lv2:symbol "return_level" ; pset:value 8.091518 ] ,
+        [ lv2:symbol "chorus" ; pset:value 2.092634 ] ,
+        [ lv2:symbol "mode" ; pset:value 0.0 ] ,
+        [ lv2:symbol "echo_taps" ; pset:value 1.0 ] ,
+        [ lv2:symbol "hall_taps" ; pset:value 2.0 ] ,
+        [ lv2:symbol "range" ; pset:value 0.0 ] ,
+        [ lv2:symbol "tails" ; pset:value 1.0 ] .
+
+<https://github.com/Kiwooky/NHE-EC280#preset-galactic-surf>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Galactic Surf" ;
+    lv2:port
+        [ lv2:symbol "volume" ; pset:value 5.0 ] ,
+        [ lv2:symbol "speed" ; pset:value 0.0 ] ,
+        [ lv2:symbol "duration" ; pset:value 1.227679 ] ,
+        [ lv2:symbol "return_level" ; pset:value 8.091518 ] ,
+        [ lv2:symbol "chorus" ; pset:value 2.092634 ] ,
+        [ lv2:symbol "mode" ; pset:value 0.0 ] ,
+        [ lv2:symbol "echo_taps" ; pset:value 4.0 ] ,
+        [ lv2:symbol "hall_taps" ; pset:value 2.0 ] ,
+        [ lv2:symbol "range" ; pset:value 1.0 ] ,
+        [ lv2:symbol "tails" ; pset:value 1.0 ] .
+
+<https://github.com/Kiwooky/NHE-EC280#preset-memory-men>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Memory Men" ;
+    lv2:port
+        [ lv2:symbol "volume" ; pset:value 5.0 ] ,
+        [ lv2:symbol "speed" ; pset:value 0.0 ] ,
+        [ lv2:symbol "duration" ; pset:value 3.102679 ] ,
+        [ lv2:symbol "return_level" ; pset:value 6.941964 ] ,
+        [ lv2:symbol "chorus" ; pset:value 1.389509 ] ,
+        [ lv2:symbol "mode" ; pset:value 0.0 ] ,
+        [ lv2:symbol "echo_taps" ; pset:value 1.0 ] ,
+        [ lv2:symbol "hall_taps" ; pset:value 10.0 ] ,
+        [ lv2:symbol "range" ; pset:value 1.0 ] ,
+        [ lv2:symbol "tails" ; pset:value 1.0 ] .
+
+<https://github.com/Kiwooky/NHE-EC280#preset-multi-tap-bbds>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Multi Tap BBDs" ;
+    lv2:port
+        [ lv2:symbol "volume" ; pset:value 5.0 ] ,
+        [ lv2:symbol "speed" ; pset:value 0.0 ] ,
+        [ lv2:symbol "duration" ; pset:value 3.359375 ] ,
+        [ lv2:symbol "return_level" ; pset:value 7.315848 ] ,
+        [ lv2:symbol "chorus" ; pset:value 0.0 ] ,
+        [ lv2:symbol "mode" ; pset:value 0.0 ] ,
+        [ lv2:symbol "echo_taps" ; pset:value 3.0 ] ,
+        [ lv2:symbol "hall_taps" ; pset:value 10.0 ] ,
+        [ lv2:symbol "range" ; pset:value 1.0 ] ,
+        [ lv2:symbol "tails" ; pset:value 1.0 ] .
+
+<https://github.com/Kiwooky/NHE-EC280#preset-oxillater>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Oxillater" ;
+    lv2:port
+        [ lv2:symbol "volume" ; pset:value 5.0 ] ,
+        [ lv2:symbol "speed" ; pset:value 0.0 ] ,
+        [ lv2:symbol "duration" ; pset:value 7.834821 ] ,
+        [ lv2:symbol "return_level" ; pset:value 8.091518 ] ,
+        [ lv2:symbol "chorus" ; pset:value 2.092634 ] ,
+        [ lv2:symbol "mode" ; pset:value 0.0 ] ,
+        [ lv2:symbol "echo_taps" ; pset:value 4.0 ] ,
+        [ lv2:symbol "hall_taps" ; pset:value 2.0 ] ,
+        [ lv2:symbol "range" ; pset:value 0.0 ] ,
+        [ lv2:symbol "tails" ; pset:value 1.0 ] .
+
+<https://github.com/Kiwooky/NHE-EC280#preset-phased-reverberations>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Phased Reverberations" ;
+    lv2:port
+        [ lv2:symbol "volume" ; pset:value 5.0 ] ,
+        [ lv2:symbol "speed" ; pset:value 2.840402 ] ,
+        [ lv2:symbol "duration" ; pset:value 2.064732 ] ,
+        [ lv2:symbol "return_level" ; pset:value 6.166295 ] ,
+        [ lv2:symbol "chorus" ; pset:value 2.940848 ] ,
+        [ lv2:symbol "mode" ; pset:value 1.0 ] ,
+        [ lv2:symbol "echo_taps" ; pset:value 8.0 ] ,
+        [ lv2:symbol "hall_taps" ; pset:value 10.0 ] ,
+        [ lv2:symbol "range" ; pset:value 1.0 ] ,
+        [ lv2:symbol "tails" ; pset:value 1.0 ] .
+
+<https://github.com/Kiwooky/NHE-EC280#preset-pretty-sick>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Pretty sick" ;
+    lv2:port
+        [ lv2:symbol "volume" ; pset:value 5.0 ] ,
+        [ lv2:symbol "speed" ; pset:value 0.0 ] ,
+        [ lv2:symbol "duration" ; pset:value 1.852679 ] ,
+        [ lv2:symbol "return_level" ; pset:value 7.795759 ] ,
+        [ lv2:symbol "chorus" ; pset:value 7.488839 ] ,
+        [ lv2:symbol "mode" ; pset:value 1.0 ] ,
+        [ lv2:symbol "echo_taps" ; pset:value 8.0 ] ,
+        [ lv2:symbol "hall_taps" ; pset:value 1.0 ] ,
+        [ lv2:symbol "range" ; pset:value 0.0 ] ,
+        [ lv2:symbol "tails" ; pset:value 1.0 ] .
+
+<https://github.com/Kiwooky/NHE-EC280#preset-ringtones>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Ringtones" ;
+    lv2:port
+        [ lv2:symbol "volume" ; pset:value 5.0 ] ,
+        [ lv2:symbol "speed" ; pset:value 8.962054 ] ,
+        [ lv2:symbol "duration" ; pset:value 3.002232 ] ,
+        [ lv2:symbol "return_level" ; pset:value 10.0 ] ,
+        [ lv2:symbol "chorus" ; pset:value 4.709821 ] ,
+        [ lv2:symbol "mode" ; pset:value 0.0 ] ,
+        [ lv2:symbol "echo_taps" ; pset:value 15.0 ] ,
+        [ lv2:symbol "hall_taps" ; pset:value 2.0 ] ,
+        [ lv2:symbol "range" ; pset:value 0.0 ] ,
+        [ lv2:symbol "tails" ; pset:value 1.0 ] .
+
+<https://github.com/Kiwooky/NHE-EC280#preset-runaway-fever>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Runaway Fever" ;
+    lv2:port
+        [ lv2:symbol "volume" ; pset:value 5.0 ] ,
+        [ lv2:symbol "speed" ; pset:value 1.86942 ] ,
+        [ lv2:symbol "duration" ; pset:value 8.046875 ] ,
+        [ lv2:symbol "return_level" ; pset:value 6.205357 ] ,
+        [ lv2:symbol "chorus" ; pset:value 5.055804 ] ,
+        [ lv2:symbol "mode" ; pset:value 0.0 ] ,
+        [ lv2:symbol "echo_taps" ; pset:value 4.0 ] ,
+        [ lv2:symbol "hall_taps" ; pset:value 2.0 ] ,
+        [ lv2:symbol "range" ; pset:value 0.0 ] ,
+        [ lv2:symbol "tails" ; pset:value 1.0 ] .
+
+<https://github.com/Kiwooky/NHE-EC280#preset-underwater>
+    a pset:Preset ;
+    lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Underwater" ;
+    lv2:port
+        [ lv2:symbol "volume" ; pset:value 5.0 ] ,
+        [ lv2:symbol "speed" ; pset:value 0.0 ] ,
+        [ lv2:symbol "duration" ; pset:value 1.824777 ] ,
+        [ lv2:symbol "return_level" ; pset:value 7.19308 ] ,
+        [ lv2:symbol "chorus" ; pset:value 8.337054 ] ,
+        [ lv2:symbol "mode" ; pset:value 1.0 ] ,
+        [ lv2:symbol "echo_taps" ; pset:value 1.0 ] ,
+        [ lv2:symbol "hall_taps" ; pset:value 1.0 ] ,
+        [ lv2:symbol "range" ; pset:value 0.0 ] ,
+        [ lv2:symbol "tails" ; pset:value 1.0 ] .

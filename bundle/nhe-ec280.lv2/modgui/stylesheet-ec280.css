@@ -1,0 +1,35 @@
+/* EC 280 - New Horizon Electronics (650 x 400) */
+.ec280{{{cns}}} { position: absolute; width: 650px; height: 400px; background-image: url(/resources/background.jpg{{{ns}}}); background-size: 650px 400px; background-repeat: no-repeat; border-radius: 6px; }
+/* knobs: 56x56 frames, 65 frames, 276 deg sweep to match the printed scale */
+.ec280{{{cns}}} .ec-knob { position: absolute; top: 267px; width: 56px; height: 56px; background-image: url(/resources/knob.png{{{ns}}}); background-repeat: no-repeat; background-position: 0 0; cursor: pointer; z-index: 21; }
+.ec280{{{cns}}} .ec-return_level { left: 52px; }
+.ec280{{{cns}}} .ec-duration { left: 158px; }
+.ec280{{{cns}}} .ec-speed { left: 264px; }
+.ec280{{{cns}}} .ec-volume { left: 370px; }
+.ec280{{{cns}}} .ec-chorus { left: 491px; }
+/* switches: 2-frame strips [value 0 | value 1], drawn by script-ec280.js, class "lit" = 1 */
+.ec280{{{cns}}} .ec-tails { position: absolute; left: 121px; top: 42px; width: 40px; height: 40px; background-image: url(/resources/button1.png{{{ns}}}); background-repeat: no-repeat; background-position: 0 0; cursor: pointer; z-index: 21; user-select: none; -webkit-user-select: none; touch-action: none; }
+.ec280{{{cns}}} .ec-tails.lit { background-position: -40px 0; }
+.ec280{{{cns}}} .ec-range { position: absolute; left: 192px; top: 42px; width: 94px; height: 40px; background-image: url(/resources/range.png{{{ns}}}); background-repeat: no-repeat; background-position: 0 0; cursor: pointer; z-index: 21; user-select: none; -webkit-user-select: none; touch-action: none; }
+.ec280{{{cns}}} .ec-range.lit { background-position: -94px 0; }
+.ec280{{{cns}}} .ec-mode { position: absolute; left: 275px; top: 139px; width: 100px; height: 50px; background-image: url(/resources/toggle.png{{{ns}}}); background-repeat: no-repeat; background-position: 0 0; cursor: pointer; z-index: 21; user-select: none; -webkit-user-select: none; touch-action: none; }
+.ec280{{{cns}}} .ec-mode.lit { background-position: -100px 0; }
+/* bypass widget: class "on" = bypassed -> unlit; "off" = active -> lit */
+.ec280{{{cns}}} .ec-onoff { position: absolute; left: 48px; top: 42px; width: 40px; height: 40px; background-image: url(/resources/button1.png{{{ns}}}); background-repeat: no-repeat; cursor: pointer; z-index: 21; }
+.ec280{{{cns}}} .ec-onoff.on  { background-position: 0 0; }
+.ec280{{{cns}}} .ec-onoff.off { background-position: -40px 0; }
+/* button banks: drawn by script-ec280.js, class "down" = selected */
+.ec280{{{cns}}} .ec-bank { position: absolute; top: 139px; width: 50px; height: 50px; background-image: url(/resources/button2.png{{{ns}}}); background-repeat: no-repeat; background-position: 0 0; cursor: pointer; z-index: 21; user-select: none; -webkit-user-select: none; touch-action: none; }
+.ec280{{{cns}}} .ec-bank.down { background-position: -50px 0; }
+.ec280{{{cns}}} .ec-E1 { left: 43px; }
+.ec280{{{cns}}} .ec-E2 { left: 97px; }
+.ec280{{{cns}}} .ec-E3 { left: 151px; }
+.ec280{{{cns}}} .ec-E4 { left: 205px; }
+.ec280{{{cns}}} .ec-R1 { left: 394px; }
+.ec280{{{cns}}} .ec-R2 { left: 448px; }
+.ec280{{{cns}}} .ec-R3 { left: 502px; }
+.ec280{{{cns}}} .ec-R4 { left: 556px; }
+/* jacks level with the MIX and 100% WET arrows */
+.ec280{{{cns}}} .mod-pedal-input { top: 137px; }
+.ec280{{{cns}}} .mod-pedal-output { top: 237px; }
+.mod-pedal.ec280{{{cns}}} .mod-pedal-output .mod-audio-output { margin-bottom: 10px; }

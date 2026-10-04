@@ -1,0 +1,184 @@
+@prefix doap:  <http://usefulinc.com/ns/doap#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix lv2:   <http://lv2plug.in/ns/lv2core#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://github.com/Kiwooky/NHE-EC280>
+    a lv2:Plugin , lv2:DelayPlugin ;
+    doap:name "Electronic Echo 280" ;
+    doap:license <http://opensource.org/licenses/MIT> ;
+    doap:maintainer [
+        foaf:name "New Horizon Electronics" ;
+        foaf:homepage <https://github.com/Kiwooky/NHE-EC280>
+    ] ;
+    rdfs:comment "Dark bucket-brigade echo and reverb with random-drift chorus, modelled on the 1977 Dynacord EC 280. Outputs: Mix (dry + wet) and Echo only (100% wet); not a stereo pair." ;
+    lv2:minorVersion 2 ;
+    lv2:microVersion 0 ;
+    lv2:optionalFeature lv2:hardRTCapable ;
+    lv2:requiredFeature <http://lv2plug.in/ns/ext/options#options> ,
+                        <http://lv2plug.in/ns/ext/urid#map> ;
+    lv2:extensionData <http://lv2plug.in/ns/ext/options#interface> ;
+    lv2:port
+    [
+        a lv2:InputPort , lv2:AudioPort ;
+        lv2:index 0 ;
+        lv2:symbol "in" ;
+        lv2:name "In"
+    ] ,
+    [
+        a lv2:OutputPort , lv2:AudioPort ;
+        lv2:index 1 ;
+        lv2:symbol "out_mix" ;
+        lv2:name "Mix"
+    ] ,
+    [
+        a lv2:OutputPort , lv2:AudioPort ;
+        lv2:index 2 ;
+        lv2:symbol "out_echo" ;
+        lv2:name "Echo only"
+    ] ,
+    [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 3 ;
+        lv2:symbol "volume" ;
+        lv2:name "Volume" ;
+        lv2:default 5 ;
+        lv2:minimum 0 ;
+        lv2:maximum 10
+    ] ,
+    [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 4 ;
+        lv2:symbol "speed" ;
+        lv2:name "Speed" ;
+        lv2:default 5 ;
+        lv2:minimum 0 ;
+        lv2:maximum 10
+    ] ,
+    [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 5 ;
+        lv2:symbol "duration" ;
+        lv2:name "Duration" ;
+        lv2:default 4 ;
+        lv2:minimum 0 ;
+        lv2:maximum 10
+    ] ,
+    [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 6 ;
+        lv2:symbol "return_level" ;
+        lv2:name "Return" ;
+        lv2:default 6 ;
+        lv2:minimum 0 ;
+        lv2:maximum 10
+    ] ,
+    [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 7 ;
+        lv2:symbol "chorus" ;
+        lv2:name "Chorus" ;
+        lv2:default 2 ;
+        lv2:minimum 0 ;
+        lv2:maximum 10
+    ] ,
+    [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 8 ;
+        lv2:symbol "mode" ;
+        lv2:name "Echo / Reverb" ;
+        lv2:default 0 ;
+        lv2:minimum 0 ;
+        lv2:maximum 1 ;
+        lv2:portProperty lv2:integer , lv2:enumeration ;
+        lv2:scalePoint
+            [ rdfs:label "Echo" ; rdf:value 0 ] ,
+            [ rdfs:label "Reverb" ; rdf:value 1 ]
+    ] ,
+    [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 9 ;
+        lv2:symbol "echo_taps" ;
+        lv2:name "Echo buttons" ;
+        lv2:default 1 ;
+        lv2:minimum 1 ;
+        lv2:maximum 15 ;
+        lv2:portProperty lv2:integer , lv2:enumeration ;
+        lv2:scalePoint
+            [ rdfs:label "E1" ; rdf:value 1 ] ,
+            [ rdfs:label "E2" ; rdf:value 2 ] ,
+            [ rdfs:label "E1+E2" ; rdf:value 3 ] ,
+            [ rdfs:label "E3" ; rdf:value 4 ] ,
+            [ rdfs:label "E1+E3" ; rdf:value 5 ] ,
+            [ rdfs:label "E2+E3" ; rdf:value 6 ] ,
+            [ rdfs:label "E1+E2+E3" ; rdf:value 7 ] ,
+            [ rdfs:label "E4" ; rdf:value 8 ] ,
+            [ rdfs:label "E1+E4" ; rdf:value 9 ] ,
+            [ rdfs:label "E2+E4" ; rdf:value 10 ] ,
+            [ rdfs:label "E1+E2+E4" ; rdf:value 11 ] ,
+            [ rdfs:label "E3+E4" ; rdf:value 12 ] ,
+            [ rdfs:label "E1+E3+E4" ; rdf:value 13 ] ,
+            [ rdfs:label "E2+E3+E4" ; rdf:value 14 ] ,
+            [ rdfs:label "All" ; rdf:value 15 ]
+    ] ,
+    [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 10 ;
+        lv2:symbol "hall_taps" ;
+        lv2:name "Reverb buttons" ;
+        lv2:default 1 ;
+        lv2:minimum 1 ;
+        lv2:maximum 15 ;
+        lv2:portProperty lv2:integer , lv2:enumeration ;
+        lv2:scalePoint
+            [ rdfs:label "R1" ; rdf:value 1 ] ,
+            [ rdfs:label "R2" ; rdf:value 2 ] ,
+            [ rdfs:label "R1+R2" ; rdf:value 3 ] ,
+            [ rdfs:label "R3" ; rdf:value 4 ] ,
+            [ rdfs:label "R1+R3" ; rdf:value 5 ] ,
+            [ rdfs:label "R2+R3" ; rdf:value 6 ] ,
+            [ rdfs:label "R1+R2+R3" ; rdf:value 7 ] ,
+            [ rdfs:label "R4" ; rdf:value 8 ] ,
+            [ rdfs:label "R1+R4" ; rdf:value 9 ] ,
+            [ rdfs:label "R2+R4" ; rdf:value 10 ] ,
+            [ rdfs:label "R1+R2+R4" ; rdf:value 11 ] ,
+            [ rdfs:label "R3+R4" ; rdf:value 12 ] ,
+            [ rdfs:label "R1+R3+R4" ; rdf:value 13 ] ,
+            [ rdfs:label "R2+R3+R4" ; rdf:value 14 ] ,
+            [ rdfs:label "All" ; rdf:value 15 ]
+    ] ,
+    [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 11 ;
+        lv2:symbol "range" ;
+        lv2:name "Range" ;
+        lv2:default 0 ;
+        lv2:minimum 0 ;
+        lv2:maximum 1 ;
+        lv2:portProperty lv2:integer , lv2:enumeration ;
+        lv2:scalePoint
+            [ rdfs:label "Vintage" ; rdf:value 0 ] ,
+            [ rdfs:label "Extended" ; rdf:value 1 ]
+    ] ,
+    [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 12 ;
+        lv2:symbol "tails" ;
+        lv2:name "Tails" ;
+        lv2:default 1 ;
+        lv2:minimum 0 ;
+        lv2:maximum 1 ;
+        lv2:portProperty lv2:integer , lv2:toggled
+    ] ,
+    [
+        a lv2:InputPort , lv2:ControlPort ;
+        lv2:index 13 ;
+        lv2:symbol "lv2_enabled" ;
+        lv2:name "Enabled" ;
+        lv2:default 1 ;
+        lv2:minimum 0 ;
+        lv2:maximum 1 ;
+        lv2:portProperty lv2:integer , lv2:toggled ;
+        lv2:designation lv2:enabled
+    ] .
