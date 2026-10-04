@@ -16,5 +16,4 @@ prototype (v1.0.0–1.0.3):
   MIX / 100% WET arrows, buttons and switches driven by the face script (tap = one, hold = add).
 - Ten factory presets by Niels.
 
-Deliberate differences from the original: the 600 ms range, the Tail option, and the Echo/Reverb
-naming (the hardware says "Hall").
+Deliberate differences from the original: the 600 ms range, and the Tail option.
