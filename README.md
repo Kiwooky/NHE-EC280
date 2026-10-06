@@ -13,6 +13,11 @@ Electronic Echo 280 by New Horizon Electronics recreates the Dynacord EC 280 Ele
 - **Random chorus.** Filtered noise, not an LFO, drifts the clock: warped, unpredictable, flanger-ish when pushed.
 - **Feedback with an edge.** Every repeat goes back through the filters and a soft clip. Past about 7.7 on Duration it wakes up on its own.
 
+## Demo
+
+Noodling through various settings: https://drive.google.com/drive/folders/1-QZxZeC3tDU7mIAqthf-zzfm8aizpxSD
+Some noodling With Taj Mahal Reverb: https://drive.google.com/file/d/15tuiynCKkmkl26nR78CGV9Mnj607NK_n/view?usp=drive_link
+
 ## Controls
 
 | Control | What it does |
