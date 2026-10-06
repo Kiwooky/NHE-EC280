@@ -16,6 +16,7 @@ Electronic Echo 280 by New Horizon Electronics recreates the Dynacord EC 280 Ele
 ## Demo
 
 Noodling through various settings: https://drive.google.com/drive/folders/1-QZxZeC3tDU7mIAqthf-zzfm8aizpxSD
+
 Some noodling With Taj Mahal Reverb: https://drive.google.com/file/d/15tuiynCKkmkl26nR78CGV9Mnj607NK_n/view?usp=drive_link
 
 ## Controls
