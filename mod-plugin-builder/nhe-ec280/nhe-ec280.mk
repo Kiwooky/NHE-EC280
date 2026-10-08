@@ -14,7 +14,12 @@
 ######################################
 
 NHE_EC280_VERSION = COMMIT_HASH_HERE
-NHE_EC280_SITE = $(call github,Kiwooky,NHE-EC280,$(NHE_EC280_VERSION))
+NHE_EC280_SITE = https://github.com/Kiwooky/NHE-EC280.git
+NHE_EC280_SITE_METHOD = git
+NHE_EC280_GIT_SUBMODULES = y
+# fetch git submodules (DPF), as MOD's own packages do (mod-plugin-builder)
+NHE_EC280_PRE_DOWNLOAD_HOOKS += MOD_PLUGIN_BUILDER_DOWNLOAD_WITH_SUBMODULES
+
 NHE_EC280_BUNDLES = nhe-ec280.lv2
 
 NHE_EC280_TARGET_MAKE = $(TARGET_MAKE_ENV) $(TARGET_CONFIGURE_OPTS) $(MAKE) NOOPT=true -C $(@D)
