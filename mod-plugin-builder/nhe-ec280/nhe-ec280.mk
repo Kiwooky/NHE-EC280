@@ -13,7 +13,7 @@
 #
 ######################################
 
-NHE_EC280_VERSION = COMMIT_HASH_HERE
+NHE_EC280_VERSION = 670e18e50a4c8797aaded73f40a717e516c45f24
 NHE_EC280_SITE = https://github.com/Kiwooky/NHE-EC280.git
 NHE_EC280_SITE_METHOD = git
 NHE_EC280_GIT_SUBMODULES = y
