@@ -32,8 +32,8 @@ Some noodling With Taj Mahal Reverb: https://drive.google.com/file/d/15tuiynCKkm
 | Reverb buttons R1–R4 | Choose the tap mixes for reverb mode |
 | Echo / Reverb toggle | Which button bank is live |
 | Range | 300 ms (the original's eight chips) or 600 ms (a "deluxe" 16-chip version with the same tone); switching mid-play glitches like hardware |
-| Tail | On: bypass lets the repeats ring out. Off: bypass cuts and clears them |
-| On/Off | Bypass |
+| Tails | Push button, LED shows the state. On: bypass lets the repeats ring out. Off: bypass cuts and clears them |
+| On/Off | Push button, LED lit when the effect is on |
 
 **Buttons:** tap = that button only (radio, like the original). Hold about half a second, or shift-click, to add or remove a button: the "press several at once" hack.
 

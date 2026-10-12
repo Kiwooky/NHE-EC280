@@ -4,7 +4,7 @@
 Run `make` first, then:  python3 tools/render.py
 Writes bundle/nhe-ec280.lv2/modgui/screenshot-ec280.png and thumbnail-ec280.png
 (rebuild afterwards to copy them into bin/). Shows the default settings:
-E1 and R1 down, Echo, 300 ms, Tail on, effect on. Needs playwright (Chromium)
+E1 and R1 down, Echo, 300 ms, Tails on, effect on (both LEDs lit). Needs playwright (Chromium)
 and pillow.
 """
 import re, os, asyncio
@@ -22,13 +22,13 @@ html = html.replace('{{{cns}}}', '').replace('{{{ns}}}', '')
 css = css.replace('{{{cns}}}', '').replace('{{{ns}}}', '').replace('/resources/', 'file://' + R + '/')
 
 def knob(v):
-    return '-%dpx 0' % (round(v / 10 * 64) * 56)
+    return '-%dpx 0' % (round(v / 10 * 64) * 63)
 
 state = {'return_level': 6, 'duration': 4, 'speed': 5, 'volume': 5, 'chorus': 2}
 extra = ''.join('.ec280 .ec-%s{background-position:%s}' % (k, knob(v)) for k, v in state.items())
-extra += '.ec280 .ec-onoff{background-position:-40px 0}'
 page = '<html><head><style>body{margin:0;background:transparent}%s%s</style></head><body>%s</body></html>' % (css, extra, html)
-page = page.replace('class="ec-switch ec-tails"', 'class="ec-switch ec-tails lit"')
+page = page.replace('class="ec-led ec-led-onoff"', 'class="ec-led ec-led-onoff on"')
+page = page.replace('class="ec-led ec-led-tails"', 'class="ec-led ec-led-tails lit"')
 page = page.replace('class="ec-bank ec-E1"', 'class="ec-bank ec-E1 down"').replace('class="ec-bank ec-R1"', 'class="ec-bank ec-R1 down"')
 tmp = os.path.join(ROOT, 'build', 'face.html')
 os.makedirs(os.path.dirname(tmp), exist_ok=True)
@@ -45,6 +45,6 @@ async def main():
 
 asyncio.run(main())
 im = Image.open(os.path.join(ROOT, 'build', 'screenshot_full.png')).convert('RGBA')
-im.quantize(256, method=Image.Quantize.FASTOCTREE).save(OUT + '/screenshot-ec280.png', optimize=True)
+im.convert('RGB').quantize(256, dither=Image.Dither.FLOYDSTEINBERG).save(OUT + '/screenshot-ec280.png', optimize=True)
 t = im.copy(); t.thumbnail((256, 64), Image.LANCZOS); t.save(OUT + '/thumbnail-ec280.png', optimize=True)
 print('screenshot and thumbnail written to', OUT)

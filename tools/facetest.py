@@ -93,6 +93,29 @@ def main():
             ok = got == want
             print(('PASS ' if ok else 'FAIL ') + '%s echo bank tap/hold -> %s' % ('touch' if touch else 'mouse', got))
             if not ok: fails.append('bank')
+            # momentary buttons: drawn down only while held; LEDs follow the state
+            for c in ('ec-onoff', 'ec-tails'):
+                bb = pg.locator('.' + c).bounding_box(); x, y = bb['x'] + bb['width'] / 2, bb['y'] + bb['height'] / 2
+                if touch:
+                    pg.touchscreen.tap(x, y); pg.wait_for_timeout(200)
+                    held = True    # a tap is too short to observe; release is checked below
+                else:
+                    pg.mouse.move(x, y); pg.mouse.down(); pg.wait_for_timeout(80)
+                    held = pg.evaluate("jQuery('.%s').hasClass('pressed')" % c)
+                    pg.mouse.up(); pg.wait_for_timeout(150)
+                up = not pg.evaluate("jQuery('.%s').hasClass('pressed')" % c)
+                ok = held and up
+                print(('PASS ' if ok else 'FAIL ') + '%s %s drawn down while held, up after' % ('touch' if touch else 'mouse', c))
+                if not ok: fails.append(c + ' momentary')
+            lit = pg.evaluate("jQuery('.ec-led-tails').hasClass('lit')")
+            want = pg.evaluate("gui.controls['tails'].value") > 0.5
+            ok = lit == want
+            print(('PASS ' if ok else 'FAIL ') + 'Tails LED follows the state (%s)' % ('lit' if lit else 'off'))
+            if not ok: fails.append('tails led')
+            byp = pg.evaluate("gui.controls[':bypass'].value"); led_on = pg.evaluate("jQuery('.ec-led-onoff').hasClass('on')")
+            ok = (byp == 0) == led_on
+            print(('PASS ' if ok else 'FAIL ') + 'On/Off LED follows bypass (bypass=%s, LED %s)' % (byp, 'lit' if led_on else 'off'))
+            if not ok: fails.append('onoff led')
             pg.evaluate("gui.setPortWidgetsValue('range', 1, null, false)"); pg.wait_for_timeout(100)
             ok = pg.evaluate("jQuery('.ec-range').hasClass('lit')") is True
             print(('PASS ' if ok else 'FAIL ') + 'host change lights range')

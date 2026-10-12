@@ -5,9 +5,11 @@ function (event, funcs) {
     //   Tap = that button only (radio, like the hardware).
     //   Hold ~0.5 s, or shift-click = add/remove it (the "press together" hack).
     //   The last button down cannot be removed, so a bank is never empty.
-    // Switches (Tail, Range, Echo/Reverb): one press flips 0 <-> 1. They are
+    // Switches (Tails, Range, Echo/Reverb): one press flips 0 <-> 1. They are
     // driven here rather than by mod-ui's filmstrip click, which did not flip
-    // back from 1 to 0 on the Duo.
+    // back from 1 to 0 on the Duo. Tails' state shows on its LED.
+    // Momentary push buttons (On/Off, Tails): drawn down only while pressed.
+    // On/Off itself is mod-ui's bypass widget; this only draws the press.
     var HOLD_MS = 500;
     var data = event.data;
     var icon = event.icon;
@@ -26,7 +28,7 @@ function (event, funcs) {
         } else if (SWITCHES[symbol]) {
             var lit = value > 0.5;
             data[symbol] = lit ? 1 : 0;
-            el = icon.find('[ec-switch="' + symbol + '"]');
+            el = icon.find('[ec-switch="' + symbol + '"], [ec-led="' + symbol + '"]');
             if (lit) el.addClass('lit'); else el.removeClass('lit');
         }
     }
@@ -86,12 +88,27 @@ function (event, funcs) {
         });
     }
 
+    // Pressed look for the momentary buttons. No preventDefault here, so
+    // mod-ui's own bypass handling still sees the press.
+    function bindMomentary(el) {
+        function up() {
+            jQuery(document).off('mouseup touchend touchcancel', up);
+            el.removeClass('pressed');
+        }
+        el.on('touchstart mousedown', function (e) {
+            if (e.type === 'mousedown' && e.which && e.which !== 1) return;
+            el.addClass('pressed');
+            jQuery(document).off('mouseup touchend touchcancel', up).on('mouseup touchend touchcancel', up);
+        });
+    }
+
     if (event.type === 'start') {
         for (var i = 0; i < event.ports.length; i++) {
             draw(event.ports[i].symbol, event.ports[i].value);
         }
         icon.find('[ec-bank]').each(function () { bindPress(jQuery(this), pressBank); });
         icon.find('[ec-switch]').each(function () { bindPress(jQuery(this), pressSwitch); });
+        icon.find('[ec-momentary]').each(function () { bindMomentary(jQuery(this)); });
     } else if (event.type === 'change') {
         draw(event.symbol, event.value);
     }

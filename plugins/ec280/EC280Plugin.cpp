@@ -124,7 +124,7 @@ protected:
     const char* getMaker()       const override { return "New Horizon Electronics"; }
     const char* getHomePage()    const override { return "https://github.com/Kiwooky/NHE-EC280"; }
     const char* getLicense()     const override { return "MIT"; }
-    uint32_t    getVersion()     const override { return d_version(1, 0, 0); }
+    uint32_t    getVersion()     const override { return d_version(1, 0, 1); }
     int64_t     getUniqueId()    const override { return d_cconst('E', 'c', '2', '8'); }
 
     void initParameter(uint32_t index, Parameter& p) override
