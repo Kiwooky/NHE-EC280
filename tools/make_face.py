@@ -13,12 +13,17 @@ position is odd at 2x is padded by one transparent pixel, so every element
 sits on a whole pixel at 1x.
 
 Knob: the static body stays put and the knurl + pointer layer rotates over it,
-65 frames across 272 deg. The sweep was measured from the printed scale: its
+65 frames across 272 deg. The two layers aren't drawn concentric (the red cap
+sits about 1 px right and down of the knurl ring), so the knurl is rotated
+about its own ring centre and moved onto the cap's centre; rotating about the
+canvas centre let the knurl creep into the red at some positions. The sweep was measured from the printed scale: its
 ticks sit at 1, 3, 5, 7, 9, about 27.2 deg per unit, 5 straight up.
 Needs pillow.
 """
 import os, json
+import numpy as np
 from PIL import Image
+from scipy import ndimage
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'assets', 'source')
@@ -43,6 +48,26 @@ def save_png(im, name, colours=None):
         im = im.quantize(colours, method=Image.Quantize.FASTOCTREE)
     im.save(os.path.join(OUT, name), optimize=True)
 
+def circle(xs, ys):
+    """Least-squares circle through points: (cx, cy, r)."""
+    A = np.c_[2 * xs, 2 * ys, np.ones(len(xs))]
+    cx, cy, c = np.linalg.lstsq(A, xs * xs + ys * ys, rcond=None)[0]
+    return cx, cy, np.sqrt(c + cx * cx + cy * cy)
+
+def knob_centres(body, knurl):
+    """Centre of the body's red cap (circle through its edge) and of the knurl ring
+    (circle through the centres of its small lobes; the pointer blob is left out)."""
+    b = np.asarray(body).astype(int)
+    red = (b[..., 0] > 180) & (b[..., 1] < 120) & (b[..., 3] > 200)
+    ys, xs = np.where(red & ~ndimage.binary_erosion(red))
+    cap = circle(xs + 0.5, ys + 0.5)[:2]
+    lab, n = ndimage.label(np.asarray(knurl)[..., 3] > 128)
+    sizes = ndimage.sum(np.ones_like(lab), lab, range(1, n + 1))
+    small = [i + 1 for i, sz in enumerate(sizes) if sz < np.median(sizes) * 2]
+    cs = np.array(ndimage.center_of_mass(np.ones_like(lab), lab, small)) + 0.5
+    ring = circle(cs[:, 1], cs[:, 0])[:2]
+    return cap, ring
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     layout = {}
@@ -53,13 +78,17 @@ def main():
 
     # knob: rotate the knurl/pointer layer over the static body
     body, knurl = load('Knob-static-body.png'), load('Knob-knurdle-pointer.png')
-    c = (body.width / 2, body.height / 2)
+    cap, ring = knob_centres(body, knurl)
+    dx, dy = cap[0] - ring[0], cap[1] - ring[1]
     frames = []
     for i in range(FRAMES):
         a = -SWEEP / 2 + SWEEP * i / (FRAMES - 1)          # degrees clockwise from 12 o'clock
+        k = knurl.rotate(-a, resample=Image.BICUBIC, center=ring)
+        k = k.transform(k.size, Image.AFFINE, (1, 0, -dx, 0, 1, -dy), resample=Image.BICUBIC)
         f = body.copy()
-        f.alpha_composite(knurl.rotate(-a, resample=Image.BICUBIC, center=c))
+        f.alpha_composite(k)
         frames.append(f)
+    layout['knob_centres'] = {'cap': [round(v, 2) for v in cap], 'ring': [round(v, 2) for v in ring]}
     s, size = strip(frames)
     save_png(s, 'knob.png', 256)
     layout['knob'] = size
