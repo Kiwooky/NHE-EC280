@@ -13,7 +13,7 @@
 #
 ######################################
 
-NHE_EC280_VERSION = d4d0f657c7994ce62eb3bfde4c4bbea02f28e619
+NHE_EC280_VERSION = b015c04faabbdc6690a688d82e5ca8e2b18374d2
 NHE_EC280_SITE = https://github.com/Kiwooky/NHE-EC280.git
 NHE_EC280_SITE_METHOD = git
 NHE_EC280_GIT_SUBMODULES = y
