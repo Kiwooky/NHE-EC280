@@ -112,6 +112,7 @@ public:
         fParams[kHallTaps] = 1.0f;
         fParams[kRange]    = 0.0f;
         fParams[kTails]    = 1.0f;
+        fParams[kQuiet]    = 1.0f;
         fParams[kBypass]   = 0.0f;
 
         fLine.assign(kLineSize, 0.0f);
@@ -124,7 +125,7 @@ protected:
     const char* getMaker()       const override { return "New Horizon Electronics"; }
     const char* getHomePage()    const override { return "https://github.com/Kiwooky/NHE-EC280"; }
     const char* getLicense()     const override { return "MIT"; }
-    uint32_t    getVersion()     const override { return d_version(1, 0, 1); }
+    uint32_t    getVersion()     const override { return d_version(1, 0, 2); }
     int64_t     getUniqueId()    const override { return d_cconst('E', 'c', '2', '8'); }
 
     void initParameter(uint32_t index, Parameter& p) override
@@ -182,9 +183,32 @@ protected:
             p.name = "Tails"; p.symbol = "tails";
             p.ranges.max = 1.0f; p.ranges.def = 1.0f;
             break;
+        case kQuiet:
+            p.hints |= kParameterIsInteger | kParameterIsBoolean;
+            p.name = "Quiet"; p.symbol = "quiet";
+            p.ranges.max = 1.0f; p.ranges.def = 1.0f;
+            break;
         case kBypass:
             p.initDesignation(kParameterDesignationBypass);
             break;
+        }
+
+        switch (index) {
+        case kDuration: case kSpeed: case kMode: case kEchoTaps: case kHallTaps: case kRange:
+            p.groupId = kGroupDelay; break;
+        case kChorus:
+            p.groupId = kGroupChorus; break;
+        case kReturn: case kVolume: case kTails: case kQuiet:
+            p.groupId = kGroupMix; break;
+        }
+    }
+
+    void initPortGroup(uint32_t groupId, PortGroup& g) override
+    {
+        switch (groupId) {
+        case kGroupDelay:  g.name = "Delay";  g.symbol = "delay";  break;
+        case kGroupChorus: g.name = "Chorus"; g.symbol = "chorus"; break;
+        case kGroupMix:    g.name = "Mix";    g.symbol = "mix";    break;
         }
     }
 
@@ -241,6 +265,8 @@ protected:
         fNoiseLp   = onePoleCoef(1.6f, fSr);
         fNoiseHp   = onePoleCoef(0.5f, fSr);
         fNoiseNorm = std::sqrt(2.0f / fNoiseLp);   // white noise -> unit variance
+        fEnvRel    = std::exp(-1.0f / (0.050f * fSr));        // level detectors: 50 ms release
+        fGateRel   = 1.0f - std::exp(-1.0f / (0.250f * fSr)); // Quiet gate: closes over ~250 ms
 
         clearState();
         fCleared = false;
@@ -266,6 +292,8 @@ protected:
         std::memset(fPairZ, 0, sizeof(fPairZ));
         fIn1.clear(); fIn2.clear(); fOut1.clear(); fOut2.clear();
         fNoiseZ = fNoiseH = 0.0f;
+        fEnvIn = fEnvWet = 0.0f;
+        fGate = fGateOpen = 0.0f;
     }
 
     static float speedToClock(float speed)
@@ -361,6 +389,13 @@ protected:
         const float minClk  = 0.5f * 2048.0f / kMaxDelay;
         const float hiss    = 2.5e-4f;       // about -72 dBFS
 
+        // Quiet: a gate that opens on playing (input) or on the echoes (wet),
+        // and while closed blocks input noise, the BBD hiss and the wet output.
+        // So no noise floor can build up in the loop, bypassed or not.
+        const bool  quiet   = fParams[kQuiet] > 0.5f;
+        const float openAt  = 1.0e-3f;       // -60 dBFS
+        const float closeAt = 5.0e-4f;       // -66 dBFS (hysteresis)
+
         for (uint32_t i = 0; i < frames; ++i)
         {
             fInGain  += fFadeCoef * (inTarget  - fInGain);
@@ -368,6 +403,21 @@ protected:
             fDryGain += fFadeCoef * (dryTarget - fDryGain);
 
             const float x = in[i];
+
+            // --- Quiet gate ------------------------------------------------------
+            float gate = 1.0f;
+            if (quiet) {
+                const float ax = std::fabs(x * fInGain);
+                fEnvIn = ax > fEnvIn ? ax : fEnvIn * fEnvRel;
+                const float lvl = fEnvIn > fEnvWet ? fEnvIn : fEnvWet;
+                if (lvl > openAt) fGateOpen = 1.0f;
+                else if (lvl < closeAt) fGateOpen = 0.0f;
+                // opens at once, so no attack is lost (the step is under -60 dBFS);
+                // closes slowly, so tails fade out instead of being cut
+                if (fGateOpen > 0.5f) fGate = 1.0f;
+                else fGate += fGateRel * (0.0f - fGate);
+                gate = fGate;
+            }
 
             // --- noise chorus: 1.6 Hz low-pass, diode clamp, 0.5 Hz high-pass
             fNoiseZ += fNoiseLp * (rnd() * fNoiseNorm - fNoiseZ);
@@ -382,7 +432,7 @@ protected:
             const float inc = clk * invSr;
 
             // --- input stage: sum, anti-alias filter, bucket clip, coupling ---
-            float s = x * vol * fInGain + fDurBus;
+            float s = x * vol * fInGain * gate + fDurBus;
             s = fIn2.process(fIn1.process(s));
             s = bucketClip(s);
             const float dc = s - fDcX + (1.0f - fDcCoef) * fDcY;   // 20 Hz high-pass
@@ -395,7 +445,7 @@ protected:
                 fPhase -= 1.0f;
                 const float t = 1.0f - fPhase / inc;          // where in this sample
                 const float v = fPrevIn + (s - fPrevIn) * t;
-                fLine[fWrite & kLineMask] = v + hiss * rnd();
+                fLine[fWrite & kLineMask] = v + hiss * gate * rnd();
                 for (int k = 0; k < 4; ++k) {
                     fTapPrev[k] = fTapCur[k];
                     fTapCur[k]  = fLine[(fWrite - tapSlots[k]) & kLineMask];
@@ -422,7 +472,12 @@ protected:
             fDurBus = fb;
 
             // output stage (T617-T619) runs out of headroom around 0 dBFS
-            wet = softClip(fOut2.process(fOut1.process(wet)) * retGain) * fWetGain;
+            wet = softClip(fOut2.process(fOut1.process(wet)) * retGain);
+            {   // level of the echoes, before the gate, so the gate can't hold itself shut
+                const float aw = std::fabs(wet);
+                fEnvWet = aw > fEnvWet ? aw : fEnvWet * fEnvRel;
+            }
+            wet *= fWetGain * gate;
 
             outMix[i] = fDryGain * x + wet;
             outEch[i] = wet;
@@ -454,6 +509,8 @@ private:
     float fInGain = 1.0f, fWetGain = 1.0f, fDryGain = 1.0f;
     bool  fCleared = true;
     bool  fFresh = true;
+    float fEnvRel = 0.0f, fGateRel = 0.0f;
+    float fEnvIn = 0.0f, fEnvWet = 0.0f, fGate = 0.0f, fGateOpen = 0.0f;
 
     DISTRHO_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EC280Plugin)
 };

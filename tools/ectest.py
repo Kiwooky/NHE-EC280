@@ -10,10 +10,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SO = os.environ.get('EC_SO', os.path.join(ROOT, 'bin', 'nhe-ec280.lv2', 'nhe-ec280_dsp.so'))
 HOST = os.environ.get('EC_HOST', os.path.join(HERE, 'lv2host')).split()
-ORDER = ['volume', 'speed', 'duration', 'return_level', 'chorus', 'mode', 'echo_taps',
-         'hall_taps', 'range', 'tails', 'lv2_enabled']
+ORDER = ['duration', 'speed', 'mode', 'echo_taps', 'hall_taps', 'range', 'chorus',
+         'return_level', 'volume', 'tails', 'quiet', 'lv2_enabled']   # port order (Delay, Chorus, Mix)
 DEF = dict(volume=5, speed=5, duration=4, return_level=10, chorus=0, mode=0, echo_taps=1,
-           hall_taps=1, range=0, tails=1, lv2_enabled=1)
+           hall_taps=1, range=0, tails=1, quiet=1, lv2_enabled=1)
 PORT = {s: 3 + i for i, s in enumerate(ORDER)}
 
 
@@ -97,9 +97,35 @@ def main():
     x = np.zeros(sr * 20); x[100] = 0.5
     _, w = run(x, sr, duration=7)
     check('Duration 7 decays', db(w[-2 * sr:]) < -70, '%.1f dB' % db(w[-2 * sr:]))
-    _, w = run(np.zeros(sr * 20), sr, duration=10)
-    check('Duration 10 self-oscillates from hiss, bounded',
+    _, w = run(np.zeros(sr * 20), sr, duration=10, quiet=0)
+    check('Duration 10 self-oscillates from hiss with Quiet off, bounded',
           -30 < db(w[-2 * sr:]) and peak_db(w) <= 0.01, '%.1f dB, peak %.1f' % (db(w[-2 * sr:]), peak_db(w)))
+
+    # 4b. Quiet: no noise floor builds up, bypassed with Tails on or engaged
+    x = np.zeros(sr * 30); x[:sr] = rng.standard_normal(sr) * 0.1
+    for d in (6, 7.4):
+        _, w = run(x, sr, duration=d, return_level=6, events=[(sr * 2, 'lv2_enabled', 0)])
+        check('Quiet: bypassed with Tails, Duration %g, silent once the tail has gone' % d,
+              np.max(np.abs(w[20 * sr:])) < 1e-6, 'peak %.1f dBFS' % peak_db(w[20 * sr:]))
+        _, w = run(x, sr, duration=d, return_level=6, quiet=0, events=[(sr * 2, 'lv2_enabled', 0)])
+        check('Quiet off: hiss floor stays, as on the original (Duration %g)' % d,
+              -100 < db(w[20 * sr:]) < -60, '%.1f dB' % db(w[20 * sr:]))
+    _, w = run(np.zeros(sr * 20), sr, duration=7.4)
+    check('Quiet: engaged, silence in, nothing accumulates', np.max(np.abs(w)) < 1e-6, 'peak %.1f dBFS' % peak_db(w))
+    hum = 10 ** (-70 / 20) * np.sin(2 * np.pi * 50 * np.arange(sr * 10) / sr)   # input noise below -60 dBFS
+    _, w = run(hum, sr, duration=7.4)
+    check('Quiet: input noise below -60 dBFS kept out of the loop', np.max(np.abs(w[sr:])) < 1e-6, 'peak %.1f dBFS' % peak_db(w[sr:]))
+    x = np.zeros(sr * 12); x[100:100 + sr // 4] = rng.standard_normal(sr // 4) * 0.2
+    _, w = run(x, sr, duration=10)
+    check('Quiet: a note still starts a runaway at Duration 10, and it sustains', db(w[-2 * sr:]) > -30, '%.1f dB' % db(w[-2 * sr:]))
+    t = np.arange(sr * 6) / sr; x = 0.05 * np.sin(2 * np.pi * 330 * t) * (t < 0.5)
+    _, w = run(x, sr, duration=5)
+    tail = w[int(0.6 * sr):]
+    step = np.max(np.abs(np.diff(tail))); own = np.max(np.abs(np.diff(w[:int(0.5 * sr)])))
+    check('Quiet: gate closes without a click', step <= own, 'max step %.5f vs %.5f' % (step, own))
+    _, w1 = run(x, sr, duration=5); _, w0 = run(x, sr, duration=5, quiet=0)
+    check('Quiet: echoes above -60 dBFS untouched', np.max(np.abs(w1[:int(1.5 * sr)] - w0[:int(1.5 * sr)])) < 1e-3,
+          'max diff %.1e' % np.max(np.abs(w1[:int(1.5 * sr)] - w0[:int(1.5 * sr)])))
 
     # 5. torture: everything up, speed flip, both modes and ranges
     loud = rng.standard_normal(sr * 6) * 0.9

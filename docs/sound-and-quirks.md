@@ -8,7 +8,7 @@
 - **Lofi and gritty.** The line aliases and blurs, and each repeat passes back through the filters and the bucket clip, so trails get darker and dirtier as they decay.
 - **Unnatural reverb.** Not a spring or plate: a spread of delay taps mixed through a resistor matrix gives a deep, smeared, distinctly artificial space.
 - **Randomly modulated.** The chorus is filtered noise added to the clock, so pitch drifts unpredictably. The drift is a fixed amount in Hz, so it warps further at long delays. With fast Speed and high Duration it edges into flanger territory.
-- **On the edge.** Below about 7.4 on Duration repeats die away; loud playing rings on longer than soft. From about 7.7 the loop wakes up from its own hiss and self-oscillates.
+- **On the edge.** Below about 7.4 on Duration repeats die away; loud playing rings on longer than soft. From about 7.7 the loop wakes up from its own hiss and self-oscillates. That needs Quiet off (in the settings); with Quiet on (the default), a note starts the runaway instead.
 
 ## Quirks of the original controls
 

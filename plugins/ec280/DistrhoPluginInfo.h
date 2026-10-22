@@ -11,18 +11,30 @@
 #define DISTRHO_PLUGIN_NUM_OUTPUTS  2
 
 enum Parameters {
-    kVolume = 0,
+    // Delay
+    kDuration = 0,
     kSpeed,
-    kDuration,
-    kReturn,
-    kChorus,
     kMode,
     kEchoTaps,
     kHallTaps,
     kRange,
+    // Chorus
+    kChorus,
+    // Mix
+    kReturn,
+    kVolume,
     kTails,
+    kQuiet,
     kBypass,
     kParameterCount
+};
+
+// Port groups, in the order mod-ui shows them (lv2:index on each group in the TTL)
+enum PortGroups {
+    kGroupDelay = 0,
+    kGroupChorus,
+    kGroupMix,
+    kPortGroupCount
 };
 
 #endif

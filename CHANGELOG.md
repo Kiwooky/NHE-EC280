@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.2 — 2026-10-22
+
+- New **Quiet** setting (settings screen only, on by default): a noise gate on the loop. It opens
+  at once on playing or on echoes above −60 dBFS and closes over 250 ms below −66 dBFS. While
+  closed it keeps input noise and the BBD hiss out of the line and mutes the wet output, so nothing
+  builds up in the loop, bypassed with Tails on or engaged. Before, the hiss floor sat at about
+  −80 to −88 dBFS forever and grew with Duration; at about 7.7 it started a runaway on its own.
+  Quiet off keeps that original behaviour.
+- Port groups for the settings screen, in this order: **Delay** (Duration, Speed, Echo / Reverb,
+  Echo buttons, Reverb buttons, Range), **Chorus** (Chorus), **Mix** (Return, Volume, Tails,
+  Quiet). Each group carries an `lv2:index`, which mod-ui uses to order the groups.
+- Control ports renumbered to follow the groups, with the new `quiet` port in Mix and
+  `lv2_enabled` last. Saved pedalboards, addressings and presets go by symbol, so they still
+  load; presets get Quiet on.
+
 ## 1.0.1 — 2026-10-12
 
 New pedal face artwork at 2x (sharp on retina screens), drawn at the same 650 × 400.

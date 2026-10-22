@@ -33,6 +33,7 @@ Some noodling With Taj Mahal Reverb: https://drive.google.com/file/d/15tuiynCKkm
 | Echo / Reverb toggle | Which button bank is live |
 | Range | 300 ms (the original's eight chips) or 600 ms (a "deluxe" 16-chip version with the same tone); switching mid-play glitches like hardware |
 | Tails | Push button, LED shows the state. On: bypass lets the repeats ring out. Off: bypass cuts and clears them |
+| Quiet (settings, on by default) | A noise gate on the loop. On: input noise and BBD hiss below about −60 dBFS stay out, and the echoes fade to silence instead of resting on a hiss floor, bypassed or not. Off: the original's hiss, which can wake a high Duration on its own |
 | On/Off | Push button, LED lit when the effect is on |
 
 **Buttons:** tap = that button only (radio, like the original). Hold about half a second, or shift-click, to add or remove a button: the "press several at once" hack.
