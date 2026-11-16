@@ -10,49 +10,59 @@
 <https://github.com/Kiwooky/NHE-EC280#preset-a-cold-space>
     a pset:Preset ;
     lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "A cold space" ;
     rdfs:seeAlso <presets.ttl> .
 
 <https://github.com/Kiwooky/NHE-EC280#preset-galactic-surf>
     a pset:Preset ;
     lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Galactic Surf" ;
     rdfs:seeAlso <presets.ttl> .
 
 <https://github.com/Kiwooky/NHE-EC280#preset-memory-men>
     a pset:Preset ;
     lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Memory Men" ;
     rdfs:seeAlso <presets.ttl> .
 
 <https://github.com/Kiwooky/NHE-EC280#preset-multi-tap-bbds>
     a pset:Preset ;
     lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Multi Tap BBDs" ;
     rdfs:seeAlso <presets.ttl> .
 
 <https://github.com/Kiwooky/NHE-EC280#preset-oxillater>
     a pset:Preset ;
     lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Oxillater" ;
     rdfs:seeAlso <presets.ttl> .
 
 <https://github.com/Kiwooky/NHE-EC280#preset-phased-reverberations>
     a pset:Preset ;
     lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Phased Reverberations" ;
     rdfs:seeAlso <presets.ttl> .
 
 <https://github.com/Kiwooky/NHE-EC280#preset-pretty-sick>
     a pset:Preset ;
     lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Pretty sick" ;
     rdfs:seeAlso <presets.ttl> .
 
 <https://github.com/Kiwooky/NHE-EC280#preset-ringtones>
     a pset:Preset ;
     lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Ringtones" ;
     rdfs:seeAlso <presets.ttl> .
 
 <https://github.com/Kiwooky/NHE-EC280#preset-runaway-fever>
     a pset:Preset ;
     lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Runaway Fever" ;
     rdfs:seeAlso <presets.ttl> .
 
 <https://github.com/Kiwooky/NHE-EC280#preset-underwater>
     a pset:Preset ;
     lv2:appliesTo <https://github.com/Kiwooky/NHE-EC280> ;
+    rdfs:label "Underwater" ;
     rdfs:seeAlso <presets.ttl> .

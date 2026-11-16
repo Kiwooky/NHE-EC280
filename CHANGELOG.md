@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3 — 2026-11-11
+
+- Preset names are now listed in `manifest.ttl` as well as `presets.ttl` (`rdfs:label`, as DPF writes them), so a host can show the names without opening the presets file. Same presets, same sound.
+
 ## 1.0.2 — 2026-10-22
 
 - New **Quiet** setting (settings screen only, on by default): a noise gate on the loop. It opens
